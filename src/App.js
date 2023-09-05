@@ -1,25 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { CustomerList } from "./components/customers/CustomersList";
+import { EmployeeList } from "./components/employees/EmployeesList";
+import { TicketList } from "./components/tickets/TicketList";
+import { Outlet, Route, Routes } from "react-router-dom";
+import { NavBar } from "./components/nav/NavBar";
+import { Welcome } from "./components/welcome/Welcome";
+import { CustomerDetails } from "./components/customers/CustomerDetails";
+import { EmployeeDetails } from "./components/Employee/EmployeeDetails";
 
-function App() {
+export const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Routes>
+      <Route
+        path="/"
+        element={
+          <>
+            <NavBar />
+            <Outlet />
+          </>
+        }
+      >
+        <Route index element={<Welcome />} />
+        <Route path="tickets" element={<TicketList />} />
+        <Route path="employees">
+          <Route index element={<EmployeeList />} />
+          <Route path=":employeeId" element={<EmployeeDetails />} />
+        </Route>
+        <Route path="customers">
+          <Route index element={<CustomerList />} />
+          <Route path=":customerId" element={<CustomerDetails />} />
+        </Route>
+      </Route>
+    </Routes>
   );
-}
-
-export default App;
+};
